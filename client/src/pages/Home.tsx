@@ -130,6 +130,32 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  // --- Services Intersection Observer ---
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const target = entry.target as HTMLElement;
+          const index = Array.from(target.parentElement?.children || []).indexOf(target);
+          const delay = Math.floor(index / 2) * 200; // Stagger: cards 0,1 together, then 2,3 with 200ms delay
+          
+          setTimeout(() => {
+            target.classList.add('visible');
+          }, delay);
+        }
+      });
+    }, observerOptions);
+
+    const cards = document.querySelectorAll('.service-card-trigger');
+    cards.forEach(card => observer.observe(card));
+
+    return () => observer.disconnect();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -780,23 +806,10 @@ const OrbitVisual = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-[28px] mt-16 max-w-[1100px] mx-auto overflow-visible">
             {services.map((service, index) => (
-              <motion.div
+              <div
                 key={service.title}
                 data-title={service.title}
-                initial={{ 
-                  opacity: 0, 
-                  x: index % 2 === 0 ? -30 : 30 
-                }}
-                whileInView={{ 
-                  opacity: 1, 
-                  x: 0 
-                }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ 
-                  duration: 0.4,
-                  ease: "easeOut"
-                }}
-                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 flex flex-col overflow-visible service-card-trigger service-card-border"
+                className="service-card-trigger group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 flex flex-col overflow-visible service-card-border"
               >
                 {/* Image Header */}
                 <div className="relative h-[220px] overflow-visible rounded-t-[16px]">
@@ -851,7 +864,7 @@ const OrbitVisual = () => {
                     Learn More <ArrowRight className="ml-1.5 w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-[5px]" />
                   </button>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

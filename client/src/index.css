@@ -78,6 +78,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Services Section Animations */
+.service-card-trigger {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.service-card-trigger:nth-child(odd) {
+  transform: translateX(-120px);
+}
+
+.service-card-trigger:nth-child(even) {
+  transform: translateX(120px);
+}
+
+.service-card-trigger.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 :root {
   --font-body: 'DM Sans', sans-serif;
   --font-display: 'Outfit', sans-serif;
