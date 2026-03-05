@@ -44,6 +44,45 @@ export default function Home() {
   const contactMutation = useContactForm();
   const [selectedService, setSelectedService] = useState<any>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [typedTitles, setTypedTitles] = useState<Record<string, string>>({});
+  const [typingComplete, setTypingComplete] = useState<Record<string, boolean>>({});
+  const [showUnderline, setShowUnderline] = useState<Record<string, boolean>>({});
+
+  const typeTitle = (title: string) => {
+    let current = "";
+    const letters = title.split("");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < letters.length) {
+        current += letters[i];
+        setTypedTitles(prev => ({ ...prev, [title]: current }));
+        i++;
+      } else {
+        clearInterval(interval);
+        setTypingComplete(prev => ({ ...prev, [title]: true }));
+        setTimeout(() => {
+          setShowUnderline(prev => ({ ...prev, [title]: true }));
+        }, 800);
+      }
+    }, 60);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const title = entry.target.getAttribute('data-title');
+          if (title && !typedTitles[title]) {
+            typeTitle(title);
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const elements = document.querySelectorAll('.service-card-trigger');
+    elements.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [typedTitles]);
   
   useEffect(() => {
     if (selectedService) {
@@ -747,6 +786,7 @@ const OrbitVisual = () => {
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
+                data-title={service.title}
                 initial={{ 
                   opacity: 0, 
                   x: index % 2 === 0 ? -30 : 30 
@@ -760,16 +800,17 @@ const OrbitVisual = () => {
                   duration: 0.4,
                   ease: "easeOut"
                 }}
-                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgba(0,201,200,0.25)] hover:-translate-y-[8px] transition-all duration-300 flex flex-col overflow-visible"
+                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgba(0,201,200,0.25)] hover:-translate-y-[8px] transition-all duration-300 flex flex-col overflow-visible service-card-trigger"
               >
                 {/* Image Header */}
-                <div className="relative h-[220px] overflow-visible">
-                  <div className="w-full h-full overflow-hidden rounded-t-[16px]">
+                <div className="relative h-[220px] overflow-hidden rounded-t-[16px]">
+                  <div className="w-full h-full">
                     <img 
                       src={service.image} 
                       alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-600 group-hover:scale-[1.08]"
                     />
+                    <div className="service-image-overlay" />
                   </div>
                   {/* Service Number */}
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center text-[#1a2332] font-bold text-sm z-20 transition-colors duration-300 group-hover:text-[#00bcd4]">
@@ -778,15 +819,20 @@ const OrbitVisual = () => {
                   
                   {/* Overlapping Icon */}
                   <div className="absolute -bottom-6 left-6 w-12 h-12 bg-[#00bcd4] rounded-full flex items-center justify-center text-white shadow-lg z-30 transform transition-transform duration-[0.6s] group-hover:rotate-[360deg]">
-                    {service.icon}
+                    <div className="absolute inset-0 rounded-full border-2 border-[rgba(0,201,200,0.4)] animate-pulse-ring" />
+                    <div className="relative z-10">{service.icon}</div>
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-grow flex flex-col p-8 pt-10">
-                  <h3 className="text-[24px] font-bold text-[#1a2332] mb-3 transition-colors font-display">
-                    {service.title}
-                  </h3>
+                  <div className="mb-3">
+                    <h3 className="text-[24px] font-bold text-[#1a2332] transition-colors font-display inline-block">
+                      {typedTitles[service.title] || ""}
+                      {!typingComplete[service.title] && <span className="typewriter-cursor">|</span>}
+                    </h3>
+                    <div className={`service-title-underline ${showUnderline[service.title] ? 'visible' : ''}`} />
+                  </div>
                   <p className="text-[15px] text-gray-500 mb-6 line-clamp-2 leading-relaxed font-body">
                     {service.desc}
                   </p>
