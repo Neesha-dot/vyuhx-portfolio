@@ -12,10 +12,11 @@ import {
   Award
 } from "lucide-react";
 import { 
-  SiReact, SiNodedotjs, SiTypescript, SiPython, SiAmazonwebservices, 
+  SiReact, SiNodedotjs, SiTypescript, SiPython,
   SiDocker, SiKubernetes, SiNextdotjs, SiPostgresql, SiMongodb, 
   SiTailwindcss, SiFigma, SiFlutter, SiGraphql, SiRedis, SiTensorflow, SiFirebase, SiGo
 } from "react-icons/si";
+import { FaAws } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -126,7 +127,7 @@ export default function Home() {
     { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
     { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
     { name: "Python", icon: SiPython, color: "#3776AB" },
-    { name: "AWS", icon: SiAmazonwebservices, color: "#232F3E" },
+    { name: "AWS", icon: FaAws, color: "#232F3E" },
     { name: "Docker", icon: SiDocker, color: "#2496ED" },
     { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
     { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
