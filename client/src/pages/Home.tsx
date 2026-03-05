@@ -743,34 +743,41 @@ const OrbitVisual = () => {
             subtitle="End-to-end services tailored to your unique business needs."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[28px] mt-16 max-w-[1100px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-[28px] mt-16 max-w-[1100px] mx-auto overflow-visible">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={{ 
+                  opacity: 0, 
+                  x: index % 2 === 0 ? -50 : 50 
+                }}
+                whileInView={{ 
+                  opacity: 1, 
+                  x: 0 
+                }}
+                viewport={{ once: true, margin: "-100px" }}
                 transition={{ 
-                  duration: 0.6,
-                  delay: index * 0.15,
+                  duration: 0.7,
                   ease: "easeOut"
                 }}
-                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col overflow-hidden"
+                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgba(0,201,200,0.25)] hover:-translate-y-[8px] transition-all duration-300 flex flex-col overflow-visible"
               >
                 {/* Image Header */}
-                <div className="relative h-[220px] overflow-hidden">
-                  <img 
-                    src={service.image} 
-                    alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                <div className="relative h-[220px] overflow-visible">
+                  <div className="w-full h-full overflow-hidden rounded-t-[16px]">
+                    <img 
+                      src={service.image} 
+                      alt={service.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
                   {/* Service Number */}
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center text-[#1a2332] font-bold text-sm z-20">
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm w-8 h-8 rounded-full flex items-center justify-center text-[#1a2332] font-bold text-sm z-20 transition-colors duration-300 group-hover:text-[#00bcd4]">
                     0{index + 1}
                   </div>
                   
                   {/* Overlapping Icon */}
-                  <div className="absolute -bottom-6 left-6 w-12 h-12 bg-[#00bcd4] rounded-full flex items-center justify-center text-white shadow-lg z-30 transform transition-transform duration-500 group-hover:scale-110">
+                  <div className="absolute -bottom-6 left-6 w-12 h-12 bg-[#00bcd4] rounded-full flex items-center justify-center text-white shadow-lg z-30 transform transition-transform duration-[0.6s] group-hover:rotate-[360deg]">
                     {service.icon}
                   </div>
                 </div>
@@ -797,9 +804,9 @@ const OrbitVisual = () => {
                   {/* Learn More Link */}
                   <button 
                     onClick={() => setSelectedService(service)}
-                    className="mt-auto inline-flex items-center text-[#00bcd4] font-bold text-[16px] transition-all group/link font-body hover:gap-2"
+                    className="mt-auto inline-flex items-center text-[#00bcd4] font-bold text-[16px] transition-all duration-300 group/link font-body"
                   >
-                    Learn More <ArrowRight className="ml-1.5 w-4 h-4 transition-transform group-hover/link:translate-x-1" />
+                    Learn More <ArrowRight className="ml-1.5 w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-[5px]" />
                   </button>
                 </div>
               </motion.div>
