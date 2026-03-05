@@ -733,128 +733,97 @@ const OrbitVisual = () => {
       </section>
 
       {/* --- SERVICES SECTION --- */}
-      <section id="services" className="bg-[#f5f7fa] relative overflow-hidden">
-        {/* Animated Mesh Background */}
-        <div className="absolute inset-0 opacity-30 pointer-events-none bg-[radial-gradient(at_0%_0%,rgba(0,188,212,0.15)_0,transparent_50%),radial-gradient(at_100%_100%,rgba(14,165,233,0.15)_0,transparent_50%)] animate-[mesh_10s_infinite_alternate]" />
-        
-        {/* Floating Decorative Shapes */}
-        <div className="absolute top-20 left-10 w-24 h-24 rounded-full border border-cyan-500/10 animate-[float_4s_infinite_ease-in-out]" />
-        <div className="absolute bottom-20 right-10 w-32 h-32 rounded-3xl border border-blue-500/10 rotate-12 animate-[float_6s_infinite_ease-in-out_reverse]" />
+      <section id="services" className="py-24 bg-white relative overflow-hidden">
+        {/* L-Shape Connector Line */}
+        <div className="absolute inset-0 pointer-events-none hidden lg:block">
+          <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+              d="M300 250 H900 V550 H300" 
+              stroke="url(#teal-gradient)" 
+              strokeWidth="2" 
+              strokeDasharray="8 8"
+              className="animate-[dash_20s_linear_infinite]"
+            />
+            <defs>
+              <linearGradient id="teal-gradient" x1="300" y1="250" x2="300" y2="550" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#00bcd4" />
+                <stop offset="1" stopColor="#0ea5e9" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <style>{`
+            @keyframes dash {
+              to {
+                stroke-dashoffset: -1000;
+              }
+            }
+          `}</style>
+        </div>
 
         <div className="container mx-auto px-6 md:px-8 relative z-10">
-          <motion.div
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.2 }}
-            className="mb-20 max-w-3xl mx-auto text-center relative"
-          >
-            <motion.span
-              variants={{
-                initial: { opacity: 0, scale: 0.8 },
-                animate: { opacity: 1, scale: 1 }
-              }}
-              className="inline-block text-sm font-bold tracking-wider uppercase mb-4 px-4 py-1.5 rounded-full bg-[#e0f7fa] text-[#00bcd4] border border-cyan-100 shadow-sm"
-            >
-              Our Expertise
-            </motion.span>
-            <motion.h2
-              variants={{
-                initial: { opacity: 0, y: 30 },
-                animate: { opacity: 1, y: 0 }
-              }}
-              className="section-main-heading mb-6"
-            >
-              Comprehensive Digital Solutions
-            </motion.h2>
-            <motion.div
-              initial={{ width: 0 }}
-              whileInView={{ width: "120px" }}
-              className="h-2 bg-gradient-to-r from-[#00bcd4] to-[#0ea5e9] mx-auto rounded-full mb-8 shadow-[0_0_15px_rgba(0,188,212,0.5)]"
-            />
-            <motion.p
-              variants={{
-                initial: { opacity: 0, y: 20 },
-                animate: { opacity: 1, y: 0 }
-              }}
-              className="text-xl md:text-2xl leading-relaxed text-[#5a6c7d] font-light"
-            >
-              End-to-end services tailored to your unique business needs.
-            </motion.p>
-          </motion.div>
+          <SectionHeading
+            badge="Our Expertise"
+            title="Comprehensive Digital Solutions"
+            subtitle="End-to-end services tailored to your unique business needs."
+          />
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
-            {services.map((service, idx) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-16 max-w-6xl mx-auto">
+            {services.map((service, index) => (
               <motion.div
-                key={idx}
-                ref={(el) => (serviceTiltRef.current[idx] = el as HTMLDivElement)}
-                initial={{ opacity: 0, y: 50, rotate: -5 }}
-                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: idx * 0.2, 
-                  type: "spring",
-                  stiffness: 100,
-                  damping: 15
-                }}
-                onClick={() => setSelectedService(service)}
-                className="service-card group relative flex flex-col bg-white rounded-[2rem] border-2 border-cyan-500/10 shadow-[0_10px_40px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_rgba(0,188,212,0.2)] transition-all duration-500 overflow-hidden"
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col overflow-hidden"
               >
-                {/* Image Section */}
-                <div className="relative h-48 overflow-hidden card-image">
-                  <motion.img 
+                {/* Decorative Number */}
+                <span className="absolute top-4 left-6 text-5xl font-bold text-slate-100 z-20 pointer-events-none group-hover:text-teal-50 transition-colors">
+                  0{index + 1}
+                </span>
+
+                {/* Image Header */}
+                <div className="relative h-64 overflow-hidden">
+                  <img 
                     src={service.image} 
                     alt={service.title}
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-[2px]"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent group-hover:from-[#1a2b4a]/80 transition-all duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   
-                  {/* Icon Badge */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70px] h-[70px] rounded-full bg-gradient-to-br from-[#00bcd4] to-[#0ea5e9] shadow-[0_8px_25px_rgba(0,188,212,0.4)] flex items-center justify-center animate-bounce group-hover:animate-none group-hover:rotate-[360deg] group-hover:scale-125 group-hover:shadow-[0_0_30px_rgba(0,188,212,0.8)] transition-all duration-500 card-icon">
-                    <div className="text-white">
-                      {service.icon}
-                    </div>
+                  {/* Overlapping Icon */}
+                  <div className="absolute -bottom-7 left-10 w-16 h-16 bg-[#00bcd4] rounded-full flex items-center justify-center text-white shadow-lg border-4 border-white z-30 transform transition-transform group-hover:scale-110">
+                    {service.icon}
                   </div>
                 </div>
 
-                <div className="p-8 flex flex-col flex-1">
-                  <h3 className="service-card-title text-2xl font-bold text-[#1a2b4a] mb-4 group-hover:translate-y-[-5px] transition-transform duration-500 card-title">
+                {/* Content */}
+                <div className="p-10 pt-12 flex-grow flex flex-col">
+                  <h3 className="text-2xl font-bold text-[#1a2332] mb-4 group-hover:text-[#00bcd4] transition-colors">
                     {service.title}
                   </h3>
-                  <p className="service-card-description text-[#5a6c7d] text-sm leading-relaxed mb-6 flex-1">
+                  <p className="text-slate-600 mb-8 line-clamp-2 text-lg">
                     {service.desc}
                   </p>
 
-                  <ul className="space-y-3 mb-8">
-                    {service.features.map((feature: string, i: number) => (
-                      <motion.li 
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: (idx * 0.2) + (i * 0.1) }}
-                        className="service-feature-item flex items-center gap-2 text-sm text-[#5a6c7d] feature-item"
-                      >
-                        <CheckCircle2 size={16} className="text-[#00bcd4] animate-pulse" />
-                        {feature}
-                      </motion.li>
+                  {/* Features List */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                    {service.features.slice(0, 4).map((feature: string) => (
+                      <div key={feature} className="flex items-center gap-3 text-base text-slate-600">
+                        <CheckCircle2 className="w-5 h-5 text-[#00bcd4] flex-shrink-0" />
+                        <span>{feature}</span>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
 
-                  <Button 
-                    className="w-full h-[50px] rounded-full bg-gradient-to-r from-[#00bcd4] to-[#0ea5e9] hover:from-[#0ea5e9] hover:to-[#00bcd4] text-white font-semibold shadow-lg hover:scale-105 hover:shadow-[0_10px_25px_rgba(0,188,212,0.4)] transition-all duration-500 relative overflow-hidden group/btn learn-more-btn"
+                  {/* Learn More Link */}
+                  <button 
+                    onClick={() => setSelectedService(service)}
+                    className="mt-auto inline-flex items-center text-[#00bcd4] font-bold text-lg hover:gap-3 transition-all group/link"
                   >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      Learn More
-                      <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-2 transition-transform duration-300 btn-arrow" />
-                    </span>
-                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700" />
-                  </Button>
+                    Learn More <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover/link:translate-x-2" />
+                  </button>
                 </div>
-                
-                {/* Shimmer Sweep */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none" />
               </motion.div>
             ))}
           </div>
