@@ -46,7 +46,6 @@ export default function Home() {
   const [isClosing, setIsClosing] = useState(false);
   const [typedTitles, setTypedTitles] = useState<Record<string, string>>({});
   const [typingComplete, setTypingComplete] = useState<Record<string, boolean>>({});
-  const [showUnderline, setShowUnderline] = useState<Record<string, boolean>>({});
 
   const typeTitle = (title: string) => {
     let current = "";
@@ -60,9 +59,6 @@ export default function Home() {
       } else {
         clearInterval(interval);
         setTypingComplete(prev => ({ ...prev, [title]: true }));
-        setTimeout(() => {
-          setShowUnderline(prev => ({ ...prev, [title]: true }));
-        }, 800);
       }
     }, 60);
   };
@@ -800,11 +796,11 @@ const OrbitVisual = () => {
                   duration: 0.4,
                   ease: "easeOut"
                 }}
-                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_40px_rgba(0,201,200,0.25)] hover:-translate-y-[8px] transition-all duration-300 flex flex-col overflow-visible service-card-trigger"
+                className="group relative bg-white rounded-[16px] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.05)] transition-all duration-300 flex flex-col overflow-visible service-card-trigger service-card-border"
               >
                 {/* Image Header */}
-                <div className="relative h-[220px] overflow-hidden rounded-t-[16px]">
-                  <div className="w-full h-full">
+                <div className="relative h-[220px] overflow-visible rounded-t-[16px]">
+                  <div className="w-full h-full overflow-hidden rounded-t-[16px]">
                     <img 
                       src={service.image} 
                       alt={service.title}
@@ -818,7 +814,7 @@ const OrbitVisual = () => {
                   </div>
                   
                   {/* Overlapping Icon */}
-                  <div className="absolute -bottom-6 left-6 w-12 h-12 bg-[#00bcd4] rounded-full flex items-center justify-center text-white shadow-lg z-30 transform transition-transform duration-[0.6s] group-hover:rotate-[360deg]">
+                  <div className="service-icon-container transform transition-transform duration-[0.6s] group-hover:rotate-[360deg]">
                     <div className="absolute inset-0 rounded-full border-2 border-[rgba(0,201,200,0.4)] animate-pulse-ring" />
                     <div className="relative z-10">{service.icon}</div>
                   </div>
@@ -831,7 +827,7 @@ const OrbitVisual = () => {
                       {typedTitles[service.title] || ""}
                       {!typingComplete[service.title] && <span className="typewriter-cursor">|</span>}
                     </h3>
-                    <div className={`service-title-underline ${showUnderline[service.title] ? 'visible' : ''}`} />
+                    <div className="service-title-underline" />
                   </div>
                   <p className="text-[15px] text-gray-500 mb-6 line-clamp-2 leading-relaxed font-body">
                     {service.desc}
@@ -841,7 +837,7 @@ const OrbitVisual = () => {
                   <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-8">
                     {service.features.slice(0, 4).map((feature: string) => (
                       <div key={feature} className="flex items-center gap-2 text-[13px] text-gray-600 font-body">
-                        <CheckCircle2 className="w-4 h-4 text-[#00bcd4] flex-shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-[#00bcd4] flex-shrink-0 transition-colors duration-300 service-check-icon" />
                         <span className="truncate">{feature}</span>
                       </div>
                     ))}
