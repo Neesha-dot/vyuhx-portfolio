@@ -8,6 +8,7 @@ import Projects2 from './components/Projects2';
 import ProjectDetail from './components/ProjectDetail';
 import BombRollsBowlsDetail from './components/BombRollsBowlsDetail';
 import SJInteriorDetail from './components/Sjinteriordetail';
+import TrinityPackagingDetail from './components/TrinityPackagingDetail';
 import CafeQueueManagement from './components/CafeQueueManagement';
 import FeedbackSystemShreerath from './components/FeedbackSystemShreerath';
 import FeedbackSystemBombRolls from './components/FeedbackSystemBombRolls';
@@ -39,6 +40,7 @@ function App() {
           {/* Specific Website project routes */}
           <Route path="/project/bomb-rolls-bowls" element={<BombRollsBowlsDetail />} />
           <Route path="/project/sj-interior" element={<SJInteriorDetail />} />
+          <Route path="/project/trinity-packaging" element={<TrinityPackagingDetail />} />
           
           {/* Dynamic Website route */}
           <Route path="/project/:projectId" element={<ProjectDetail />} />

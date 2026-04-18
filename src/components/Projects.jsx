@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import './Projects.css';
 
 // Import project images from assets folder
+// Store your images in: src/assets/projects/
 import cafeTwentyTwentyImg from '../assets/projects/cafe 2020.png';
-import bombRollsBowlsImg from '../assets/projects/bombrollsbowls1.png';  // Keep this
+import bombRollsBowlsImg from '../assets/projects/bombrollsbowls1.png';
 import sjInteriorsImg from '../assets/projects/sj interiors1.png';
+import trinityPackagingImg from '../assets/projects/trinity-packaging.png';
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -15,25 +17,33 @@ const Projects = () => {
       id: 'cafe-twenty-twenty',
       title: 'Cafe Twenty Twenty',
       category: 'Website Development',
-      description: 'Modern cafe website featuring elegant design, interactive menu showcase, and seamless online ordering system for enhanced customer experience.',
+      description: 'Where coffee meets comfort. Handcrafted coffee and calm ambiance welcome you every day with modern design and seamless online ordering.',
       thumbnail: cafeTwentyTwentyImg,
-      tags: ['React', 'Responsive Design', 'Modern UI', 'Restaurant']
+      tags: ['React', 'Node.js', 'Online Ordering', 'Restaurant']
     },
     {
       id: 'bomb-rolls-bowls',
       title: 'Bomb Rolls and Bowls',
       category: 'Website Development',
-      description: 'Dynamic restaurant website with vibrant design, stunning food photography gallery, and intuitive navigation for exceptional digital presence.',
-      thumbnail: bombRollsBowlsImg,  // NOW USING IT
-      tags: ['React', 'Image Gallery', 'Modern Design', 'Food & Beverage']
+      description: 'Where every bite is a flavor bomb waiting to detonate! Vibrant menu showcase with stunning food photography and easy navigation.',
+      thumbnail: bombRollsBowlsImg,
+      tags: ['React', 'Menu Gallery', 'Food & Beverage', 'Modern Design']
     },
     {
       id: 'sj-interior',
       title: 'SJ Interior',
       category: 'Website Development',
-      description: 'Elegant interior design portfolio website showcasing premium projects with immersive visuals, smooth animations, and professional presentation.',
+      description: 'Elegant portfolio showcasing premium interior design projects with immersive visual experiences and seamless navigation.',
       thumbnail: sjInteriorsImg,
-      tags: ['React', 'Portfolio Design', 'Visual Showcase', 'Interior Design']
+      tags: ['React', 'GSAP', 'Portfolio', 'Interior Design']
+    },
+    {
+      id: 'trinity-packaging',
+      title: 'Trinity Packaging',
+      category: 'Website Development',
+      description: 'Professional manufacturing website for corrugated boxes and duplex cartons with comprehensive product showcase and business inquiry system.',
+      thumbnail: trinityPackagingImg,
+      tags: ['React', 'Manufacturing', 'B2B', 'Product Showcase']
     }
   ];
 
@@ -43,6 +53,7 @@ const Projects = () => {
 
   return (
     <div className="projects-page">
+      {/* Header with same background as services */}
       <div className="projects-header">
         <div className="header-wrapper">
           <button className="back-button" onClick={() => navigate('/')}>
@@ -58,12 +69,16 @@ const Projects = () => {
         </div>
       </div>
 
+      {/* Projects Content Section */}
       <div className="projects-content-section">
+        {/* Animated Background - matching Hero section */}
         <div className="projects-background">
+          {/* Gradient Orbs */}
           <div className="unified-orb orb-top-right"></div>
           <div className="unified-orb orb-bottom-left"></div>
           <div className="unified-orb orb-center"></div>
 
+          {/* Floating Particles */}
           <div className="unified-particles">
             {[...Array(15)].map((_, i) => (
               <div
@@ -78,6 +93,7 @@ const Projects = () => {
             ))}
           </div>
 
+          {/* Animated Grid */}
           <div className="unified-grid">
             {[...Array(4)].map((_, i) => (
               <div
@@ -101,6 +117,7 @@ const Projects = () => {
             ))}
           </div>
 
+          {/* Tech Nodes */}
           <div className="unified-tech-nodes">
             {[
               { top: '15%', left: '10%', delay: '0s' },
@@ -122,6 +139,7 @@ const Projects = () => {
           </div>
         </div>
 
+        {/* Projects Grid */}
         <div className="projects-container">
           <div className="projects-grid">
             {projects.map((project, index) => (
@@ -131,6 +149,7 @@ const Projects = () => {
                 style={{ animationDelay: `${index * 0.15}s` }}
                 onClick={() => handleProjectClick(project.id)}
               >
+                {/* Project Image */}
                 <div className="project-thumbnail-wrapper">
                   <img 
                     src={project.thumbnail} 
@@ -150,6 +169,7 @@ const Projects = () => {
                   </div>
                 </div>
                 
+                {/* Project Info */}
                 <div className="project-info">
                   <h3 className="project-title">{project.title}</h3>
                   <p className="project-description">{project.description}</p>
